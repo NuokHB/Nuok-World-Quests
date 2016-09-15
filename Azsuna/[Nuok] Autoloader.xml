@@ -112,6 +112,10 @@ return 0;";
             }
             return false;
         }]]></CustomBehavior>
+    <If Condition="OnQuest(41545) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41545)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41545 - Aethril Cluster&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="41545 - Aethril Cluster" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(41564) &amp;&amp; Me.GetSkill(Styx.SkillLine.Skinning).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41564)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41564 - Felhide&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="41564 - Felhide" RememberProfile="false" />

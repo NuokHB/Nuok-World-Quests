@@ -144,6 +144,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43630 - WANTED Perrexx&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="43630 - WANTED Perrexx" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(44033) &amp;&amp; PassesSettings(44033)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44033 - Aw, Nuts!&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="44033 - Aw, Nuts!" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(44299) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44299)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44299 - WANTED Darkshade&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="44299 - WANTED Darkshade" RememberProfile="false" />

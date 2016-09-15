@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Aw, Nuts!</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1018);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 44033 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(44033)">
+        <RunTo X="2290.76" Y="6591.6" Z="138.8593" />
+      </If>
+      <If Condition="HasQuest(44033)">
+        <CustomBehavior File="InteractWith" MobId="253277" NumOfTimes="100" TerminateWhen="!OnQuest || IsObjectiveComplete(2, 44033)" X="2280.839" Y="6632.958" Z="134.1875" />
+        <CustomBehavior File="InteractWith" MobId="112289" NumOfTimes="100" TerminateWhen="!OnQuest || IsObjectiveComplete(1, 44033)">
+          <HuntingGrounds>
+            <Hotspot X="2280.839" Y="6632.958" Z="134.1875" />
+            <Hotspot X="2332.624" Y="6694.837" Z="134.8484" />
+            <Hotspot X="2356.501" Y="6665.838" Z="139.2085" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
