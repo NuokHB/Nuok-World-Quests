@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Leyhollow Infestation</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest() => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42172 then
+            return true;
+            end
+    end
+end
+return false;", 0);
+]]></CustomBehavior>
+    <While Condition="OnQuest() &amp;&amp; !HasQuest(42172)">
+      <RunTo X="780.0253" Y="6629.304" Z="62.4072" />
+    </While>
+    <While Condition="!IsQuestCompleted(42172) &amp;&amp; HasQuest(42172)">
+      <While Condition="!IsObjectiveComplete(1, 42172)">
+        <!--Aura Name="Heavy Stone" SpellId="211392-->
+        <While Condition="!Me.HasAura(211392)">
+          <!--GameObject Name="Heavy Stone" Entry="249771" -->
+          <If Condition="!Me.HasAura(211392)">
+            <CustomBehavior File="InteractWith" NumOfTimes="1"  MobId="106621" WaitForNpcs="false" />
+          </If>
+          <If Condition="!Me.HasAura(211392)">
+            <CustomBehavior File="InteractWith" NumOfTimes="1"  MobId="249771" >
+              <HuntingGrounds>
+                <Hotspot X="864.4134" Y="6489.69" Z="55.21318" />
+                <Hotspot X="779.2867" Y="6478.893" Z="59.9725" />
+              </HuntingGrounds>
+            </CustomBehavior>
+          </If>
+        </While>
+        <If Condition="Me.HasAura(211392)">
+          <!--WoWUnit Name="Leyworm Tunnel" Entry="106625" -->
+          <CustomBehavior File="InteractWith" NumOfTimes="1" Range="1" MobId="106625" >
+            <HuntingGrounds>
+              <Hotspot X="864.4134" Y="6489.69" Z="55.21318" />
+              <Hotspot X="779.2867" Y="6478.893" Z="59.9725" />
+            </HuntingGrounds>
+          </CustomBehavior>
+          <CustomBehavior File="RunMacro" Macro="/click ExtraActionButton1"/>
+        </If>
+      </While>
+      <Objective QuestName="Leyhollow Infestation" QuestId="42172" Type="KillMob" Nav="Fly" MobId="106630" KillCount="10" />
+      <Objective QuestName="Leyhollow Infestation" QuestId="42172" Type="KillMob" Nav="Fly" MobId="106665" KillCount="1" />
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

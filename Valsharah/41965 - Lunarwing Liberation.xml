@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Lunarwing Liberation</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41965 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41965)">
+        <RunTo X="2005.715" Y="6629.221" Z="76.25223" />
+      </If>
+      <!--<WoWUnit Name="Trapped Lunarwing" Entry="93489" X="1939.064" Y="6600.818" Z="77.04566" />-->
+      <CustomBehavior File="InteractWith" NumOfTimes="8" MobId="93489" Range="2" TerminateWhen="!OnQuest || IsObjectiveComplete(1, 41965)">
+        <HuntingGrounds>
+          <Hotspot X="2005.715" Y="6629.221" Z="76.25223" />
+          <Hotspot X="1939.064" Y="6600.818" Z="77.04566" />
+          <Hotspot X="1800.869" Y="6602.736" Z="77.82824" />
+        </HuntingGrounds>
+      </CustomBehavior>
+
+      <!--<Vendor Name="Thistleleaf Thorndancer" Entry="93444" Type="Repair" Nav="Fly" X="1925.678" Y="6718.364" Z="77.45473" />-->
+      <CustomBehavior File="KillUntilComplete" MobId="93444"  TerminateWhen="!OnQuest || IsObjectiveComplete(3, 41965)" X="1909.072" Y="6718.383" Z="79.83482" />
+      
+      <CustomBehavior File="KillUntilComplete" MobId="91474"  TerminateWhen="!OnQuest || IsObjectiveComplete(2, 41965)">
+        <HuntingGrounds>
+          <Hotspot X="2005.715" Y="6629.221" Z="76.25223" />
+          <Hotspot X="1939.064" Y="6600.818" Z="77.04566" />
+          <Hotspot X="1800.869" Y="6602.736" Z="77.82824" />
+        </HuntingGrounds>
+      </CustomBehavior>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

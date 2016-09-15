@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Azsuna Loader</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest(int questId){ return Lua.GetReturnVal<bool>($@"SetMapByID(1015);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015); 
+if (taskInfo) then 
+for i, info  in ipairs(taskInfo) do 
+C_TaskQuest.RequestPreloadRewardData(info.questId);
+if info.questId == {questId} then 
+return true; 
+end 
+end 
+end 
+return false", 0); }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[    public class Settings : Styx.Helpers.Settings
+    {
+        public static readonly string _settingsPath = Path.Combine(CharacterSettingsDirectory, "Profiles",
+            "NuokWorldQuestSettings.xml");
+
+        private static Settings _instance;
+
+        public static Settings Instance => _instance ?? (_instance = new Settings());
+
+        public Settings() : base(_settingsPath)
+        {
+        }
+
+        [Setting]
+        public bool DoWanted { get; set; }
+
+        [Setting]
+        public bool DoDangerQuests { get; set; }
+
+        [Setting]
+        public bool ArtifactPower { get; set; }
+
+        [Setting]
+        public bool Equipment { get; set; }
+
+        [Setting]
+        public bool Blood { get; set; }
+
+        [Setting]
+        public bool OrderHall { get; set; }
+
+        [Setting]
+        public bool Gold { get; set; }
+    }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
+        {
+            var questLua = $@"local numQuestCurrencies = GetNumQuestLogRewardCurrencies({questId});
+local money = GetQuestLogRewardMoney({questId});
+local artifactXP  = GetQuestLogRewardArtifactXP({questId});
+local numQuestRewards = GetNumQuestLogRewards({questId})
+if numQuestCurrencies > 0 then
+    return 5;
+end
+
+if money > 0 then 
+    return 1;
+end
+
+if artifactXP > 0 then 
+    return 2;
+end
+
+if numQuestRewards > 0 then 
+    local name, texture, numItems, quality, isUsable, itemID = GetQuestLogRewardInfo(1, {questId});
+        if itemID == 124124 then 
+	    return 3;
+	    end
+    return 4;
+end
+    
+
+return 0;";
+            return Lua.GetReturnVal<int>(questLua, 0);
+        }
+
+        public bool PassesSettings(int questId)
+        {
+            //return error = 0, gold = 1, artifactpower = 2, items = 3, blood = 4, currency = 5
+            var rewardType = QuestRewardType(questId);
+            switch (rewardType)
+            {
+                case 1:
+                    return Settings.Instance.Gold;
+                case 2:
+                    return Settings.Instance.ArtifactPower;
+                case 3:
+                    return Settings.Instance.Equipment;
+                case 4:
+                    return Settings.Instance.Blood;
+                case 5:
+                    return Settings.Instance.OrderHall;
+            }
+            return false;
+        }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Welcome To Nuoks World Quests&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do WANTED Quests {Settings.Instance.DoWanted}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do DANGEROUS Quests {Settings.Instance.DoDangerQuests}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do ArtifactPower Quests {Settings.Instance.ArtifactPower}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Equipment Quests {Settings.Instance.Equipment}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do OrderHall Quests {Settings.Instance.OrderHall}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Gold Quests {Settings.Instance.Gold}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
+    <If Condition="OnQuest(41564) &amp;&amp; Me.GetSkill(Styx.SkillLine.Skinning).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41564)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41564 - Felhide&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\41564 - Felhide" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42018) &amp;&amp; PassesSettings(42018)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42018 - Those Beyond Redemption&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42018 - Those Beyond Redemption" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42021) &amp;&amp; PassesSettings(42021)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42021 - Investigation at Mak'rana&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42021 - Investigation at Mak'rana" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42027) &amp;&amp; PassesSettings(42027)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42027 - Faronaar in Chaos&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42027 - Faronaar in Chaos" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42108) &amp;&amp; PassesSettings(42108)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42108 - Rally the Nightwatchers&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42108 - Rally the Nightwatchers" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42119) &amp;&amp; PassesSettings(42119)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42119 - A Cleansing Cocktail&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42119 - A Cleansing Cocktail" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42123) &amp;&amp; PassesSettings(42123)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42123 - Reclaiming Llothien&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42123 - Reclaiming Llothien" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42172) &amp;&amp; PassesSettings(42172)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42172 - Leyhollow Infestation&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42172 - Leyhollow Infestation" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42211) &amp;&amp; PassesSettings(42211)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42211 - Leodrath's Kin&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42211 - Leodrath's Kin" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42275) &amp;&amp; PassesSettings(42275)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42275 - Not On My Watch&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42275 - Not On My Watch" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42511) &amp;&amp; PassesSettings(42511)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42511 - Twisted Souls&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42511 - Twisted Souls" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42620) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(42620) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42620 - WANTED Arcavellus&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42620 - WANTED Arcavellus" RememberProfile="false" />
+    </If>
+  </QuestOrder>
+</HBProfile>

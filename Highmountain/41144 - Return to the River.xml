@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<HBProfile>
+  <Name>[Nuok] Return to the River</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41144 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41144)">
+        <RunTo X="4072.671" Y="4835.414" Z="635.3427" />
+      </If>
+      <If Condition="HasQuest(41144)">
+        <CustomBehavior File="KillUntilComplete" TerminateWhen="!HasQuest(41144)" MobIds="94687, 95013">
+          <HuntingGrounds>
+            <Hotspot X="4072.671" Y="4835.414" Z="635.3427" />
+            <Hotspot X="4063.5" Y="4923.804" Z="646.7585" />
+            <Hotspot X="3973.526" Y="4994.095" Z="631.4042" />
+            <Hotspot X="3884.939" Y="4944.424" Z="634.1942" />
+            <Hotspot X="3897.659" Y="4827.157" Z="632.6965" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+<CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Water of Life</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41145 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41145)">
+        <RunTo X="4112.289" Y="4987.391" Z="656.5527" />
+      </If>
+      <If Condition="HasQuest(41145)">
+
+        <CustomBehavior File="InteractWith" MobId="247106" NumOfTimes="100" TerminateWhen="!OnQuest || IsObjectiveComplete(3, 41145)">
+          <HuntingGrounds>
+            <Hotspot X="4155.831" Y="5026.295" Z="646.1916" />
+            <Hotspot X="4195.095" Y="5014.042" Z="652.7593" />
+            <Hotspot X="4178.572" Y="5072.881" Z="660.3693" />
+            <Hotspot X="4127.553" Y="5107.575" Z="676.3475" />
+            <Hotspot X="4229.885" Y="5086.294" Z="703.689" />
+          </HuntingGrounds>
+        </CustomBehavior>
+
+        <CustomBehavior File="KillUntilComplete" TerminateWhen="!OnQuest">
+          <HuntingGrounds>
+            <Hotspot X="4155.831" Y="5026.295" Z="646.1916" />
+            <Hotspot X="4195.095" Y="5014.042" Z="652.7593" />
+            <Hotspot X="4178.572" Y="5072.881" Z="660.3693" />
+            <Hotspot X="4127.553" Y="5107.575" Z="676.3475" />
+            <Hotspot X="4229.885" Y="5086.294" Z="703.689" />
+          </HuntingGrounds>
+          <PursuitList>
+            <!-- <WoWUnit Name="Drogbar Manathirster" Entry="95866" X="4143.396" Y="5021.266" Z="646.4569" />
+            <WoWUnit Name="Violent Crageater" Entry="95916" X="4194.292" Y="4993.606" Z="693.6869" />-->
+            <PursueUnit Id="95866" PursueWhen="!IsObjectiveComplete(1, 41145)" />           
+            <PursueUnit Id="95916" PursueWhen="!IsObjectiveComplete(2, 41145)" />
+          </PursuitList>
+        </CustomBehavior>
+
+        
+        <Objective QuestName="Water of Life" QuestId="41145" Type="KillMob" Nav="Fly" MobId="114295" KillCount="3" />
+        <Objective QuestName="Water of Life" QuestId="41145" Type="KillMob" Nav="Fly" MobId="95916" KillCount="6" />
+        <Objective QuestName="Water of Life" QuestId="41145" Type="UseObject" Nav="Fly" ObjectId="247106" UseCount="6" />
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

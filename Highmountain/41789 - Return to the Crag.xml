@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<HBProfile>
+  <Name>[Nuok] Return to the Crag</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41789 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While  Condition="OnQuest">
+      <If Condition="!HasQuest(41789)">
+        <RunTo X="4763.147" Y="4423.917" Z="695.1451" />
+      </If>
+
+      <If Condition="HasQuest(41789)">
+        <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="104531" QuestId="41789" QuestObjectiveIndex="2" >
+          <HuntingGrounds>
+            <Hotspot X="4812.418" Y="4435.378" Z="712.1647" />
+            <Hotspot X="4772.158" Y="4368.332" Z="710.0596" />
+            <Hotspot X="4746.467" Y="4472.92" Z="688.968" />
+          </HuntingGrounds>
+        </CustomBehavior>
+
+        <CustomBehavior File="KillUntilComplete" TerminateWhen="!HasQuest(41789)">
+          <HuntingGrounds>
+            <Hotspot X="-744.0672" Y="5900.255" Z="3.110456" />
+            <Hotspot X="-770.3879" Y="5734.849" Z="3.554172" />
+            <Hotspot X="-890.8293" Y="5754.699" Z="2.407771" />
+          </HuntingGrounds>
+          <PursuitList>
+            <PursueUnit Id="94152" PursueWhen="!IsObjectiveComplete(1, 41789)" />
+            <PursueUnit Id="94153" PursueWhen="!IsObjectiveComplete(1, 41789)" />
+            <PursueUnit Id="94386" PursueWhen="!IsObjectiveComplete(3, 41789)" />
+            <PursueUnit Id="94196" PursueWhen="!IsObjectiveComplete(3, 41789)" />
+          </PursuitList>
+        </CustomBehavior>
+      </If>
+    </While>
+  </QuestOrder>
+</HBProfile>

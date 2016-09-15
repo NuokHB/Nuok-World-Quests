@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Tangled Nightmare</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition">
+  <![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41996 then
+            return true;
+            end
+    end
+end
+return false;", 0);
+
+        public bool ObjectivesComplete(uint questId, params int[] obectives)
+        {
+            return obectives.All(o => IsObjectiveComplete(o, questId));
+        }]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <CustomBehavior File="InteractWith" Range="2" TerminateWhen="ObjectivesComplete(41996, 1, 2)">
+        <HuntingGrounds>
+          <Hotspot X="3651.971" Y="6158.476" Z="193.4385" />
+          <Hotspot X="3561.113" Y="6163.045" Z="178.2149" />
+        </HuntingGrounds>
+        <PursuitList>
+          <!--<WoWUnit Name="Nightmare Totem" Entry="97565" X="3542.881" Y="6126.538" Z="185.6005" />-->
+          <PursueUnit Id="97565" PursueWhen="!IsObjectiveComplete(2, 41996)" />
+          <!--<WoWUnit Name="Shala'nir Druid" Entry="97554" X="3623.913" Y="6211.822" Z="177.1228" />-->
+          <PursueUnit Id="97554" PursueWhen="!IsObjectiveComplete(1, 41996)" />
+        </PursuitList>
+      </CustomBehavior>
+
+      <CustomBehavior File="KillUntilComplete" MobIds="113646, 112052, 93111"  TerminateWhen="!OnQuest || !ObjectivesComplete(41996, 1, 2)">
+        <HuntingGrounds>
+          <Hotspot X="3651.971" Y="6158.476" Z="193.4385" />
+          <Hotspot X="3561.113" Y="6163.045" Z="178.2149" />
+        </HuntingGrounds>
+      </CustomBehavior>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

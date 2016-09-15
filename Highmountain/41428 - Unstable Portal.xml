@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Unstable Portal</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41428 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41428)">
+        <RunTo X="5540.591" Y="4353.242" Z="663.7692" />
+      </If>
+      <If Condition="HasQuest(41428)">
+        <CustomBehavior File="InteractWith" MobId="104339" TerminateWhen="IsObjectiveComplete(1,41428) || !HasQuest(41428)">
+          <HuntingGrounds>
+            <Hotspot X="5571.697" Y="4357.613" Z="660.5886" />
+            <Hotspot X="5596.172" Y="4217.641" Z="653.3306" />
+            <Hotspot X="5707.992" Y="4140.778" Z="630.3262" />
+            <Hotspot X="5770.017" Y="4291.781" Z="657.2603" />
+          </HuntingGrounds>
+        </CustomBehavior>
+        <If Condition="HasQuest(41428) &amp;&amp; IsObjectiveComplete(1,41428)">
+          <CustomBehavior File="InteractWith" MobId="247896"  NumOfTimes="40" TerminateWhen="!HasQuest(41428)" X="5677.111" Y="4256.797" Z="694.6832" />
+        </If>
+      </If>
+    </While>
+  </QuestOrder>
+</HBProfile>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Valsharah Loader</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest(int questId){ return Lua.GetReturnVal<bool>($@"SetMapByID(1018);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018); 
+if (taskInfo) then 
+for i, info  in ipairs(taskInfo) do 
+C_TaskQuest.RequestPreloadRewardData(info.questId);
+if info.questId == {questId} then 
+return true; 
+end 
+end 
+end 
+return false", 0); }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[    public class Settings : Styx.Helpers.Settings
+    {
+        public static readonly string _settingsPath = Path.Combine(CharacterSettingsDirectory, "Profiles",
+            "NuokWorldQuestSettings.xml");
+
+        private static Settings _instance;
+
+        public static Settings Instance => _instance ?? (_instance = new Settings());
+
+        public Settings() : base(_settingsPath)
+        {
+        }
+
+        [Setting]
+        public bool DoWanted { get; set; }
+
+        [Setting]
+        public bool DoDangerQuests { get; set; }
+
+        [Setting]
+        public bool ArtifactPower { get; set; }
+
+        [Setting]
+        public bool Equipment { get; set; }
+
+        [Setting]
+        public bool Blood { get; set; }
+
+        [Setting]
+        public bool OrderHall { get; set; }
+
+        [Setting]
+        public bool Gold { get; set; }
+    }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
+        {
+            var questLua = $@"local numQuestCurrencies = GetNumQuestLogRewardCurrencies({questId});
+local money = GetQuestLogRewardMoney({questId});
+local artifactXP  = GetQuestLogRewardArtifactXP({questId});
+local numQuestRewards = GetNumQuestLogRewards({questId})
+if numQuestCurrencies > 0 then
+    return 5;
+end
+
+if money > 0 then 
+    return 1;
+end
+
+if artifactXP > 0 then 
+    return 2;
+end
+
+if numQuestRewards > 0 then 
+    local name, texture, numItems, quality, isUsable, itemID = GetQuestLogRewardInfo(1, {questId});
+        if itemID == 124124 then 
+	    return 3;
+	    end
+    return 4;
+end
+    
+
+return 0;";
+            return Lua.GetReturnVal<int>(questLua, 0);
+        }
+
+        public bool PassesSettings(int questId)
+        {
+            //return error = 0, gold = 1, artifactpower = 2, items = 3, blood = 4, currency = 5
+            var rewardType = QuestRewardType(questId);
+            switch (rewardType)
+            {
+                case 1:
+                    return Settings.Instance.Gold;
+                case 2:
+                    return Settings.Instance.ArtifactPower;
+                case 3:
+                    return Settings.Instance.Equipment;
+                case 4:
+                    return Settings.Instance.Blood;
+                case 5:
+                    return Settings.Instance.OrderHall;
+            }
+            return false;
+        }]]></CustomBehavior>
+    <If Condition="OnQuest(41965) &amp;&amp; PassesSettings(41965)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41965 - Lunarwing Liberation&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="41965 - Lunarwing Liberation" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(41996) &amp;&amp; PassesSettings(41996)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41996 - Tangled Nightmare&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="41996 - Tangled Nightmare" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42076) &amp;&amp; PassesSettings(42076)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42076 - Shadowfen Village&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="42076 - Shadowfen Village" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(42145) &amp;&amp; PassesSettings(42145)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42145 - Out of the Woodwork&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="42145 - Out of the Woodwork" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43101) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(43101)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43101 - DANGER Witchdoctor Grgl-Brgl&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43101 - DANGER Witchdoctor Grgl-Brgl" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43336) &amp;&amp; PassesSettings(43336)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43336 - Purge of the Nightmare&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43336 - Purge of the Nightmare" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43629) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43629)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43629 - WANTED Kiranys Duskwhisper&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43629 - WANTED Kiranys Duskwhisper" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43630) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43630)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43630 - WANTED Perrexx&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43630 - WANTED Perrexx" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(44299) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44299)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44299 - WANTED Darkshade&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="44299 - WANTED Darkshade" RememberProfile="false" />
+    </If>
+  </QuestOrder>
+</HBProfile>

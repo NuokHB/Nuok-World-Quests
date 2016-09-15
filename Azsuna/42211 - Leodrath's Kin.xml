@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Leodrath's Kin</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42211 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest &amp;&amp; !HasQuest(42211)">
+      <RunTo X="-360.0012" Y="5525.813" Z="38.69462" />
+    </While>
+    <While Condition="OnQuest &amp;&amp; HasQuest(42211)">
+      <CustomBehavior File="InteractWith" NumOfTimes="200" QuestId="42211" QuestObjectiveIndex="1" MobId="106689">
+        <HuntingGrounds>
+          <Hotspot X="-348.3176" Y="5534.859" Z="38.68754" />
+          <Hotspot X="-238.1837" Y="5591.914" Z="61.28253" />
+        </HuntingGrounds>
+      </CustomBehavior>
+      <Objective QuestName="Leodrath's Kin" QuestId="42211" Type="KillMob" Nav="Fly" MobId="106788" KillCount="10" />
+      <!--<Vendor Name="Syphonus" Entry="90505" Type="Repair" Nav="Fly" X="-445.5316" Y="5411.096" Z="70.33295" />-->
+      <CustomBehavior File="KillUntilComplete" MobId="90505" TerminateWhen="IsObjectiveComplete(3,42211) || !OnQuest || !HasQuest(42211)" X="-445.5316" Y="5411.096" Z="70.33295" />
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
