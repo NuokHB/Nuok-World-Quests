@@ -136,6 +136,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41703 - DANGER Ormagrogg&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="41703 - DANGER Ormagrogg" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(41705) &amp;&amp; PassesSettings(41705)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41705 - Assault on Thunder Totem&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="41705 - Assault on Thunder Totem" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(41789) &amp;&amp; PassesSettings(41789)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41789 - Return to the Crag&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="41789 - Return to the Crag" RememberProfile="false" />
