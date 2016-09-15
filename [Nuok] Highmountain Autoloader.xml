@@ -132,6 +132,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41145 - Water of Life&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41145 - Water of Life" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(41416) &amp;&amp; PassesSettings(41416)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41416 - Retake the Skyhorn&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41416 - Retake the Skyhorn" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(41428) &amp;&amp; PassesSettings(41428)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41428 - Unstable Portal&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41428 - Unstable Portal" RememberProfile="false" />
@@ -159,6 +163,10 @@ return 0;";
     <If Condition="OnQuest(41844) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(41844) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41844 - WANTED Sekhan&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41844 - WANTED Sekhan" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(44291) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44291) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44291 - WANTED Crawshuk the Hungry&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\44291 - WANTED Crawshuk the Hungry" RememberProfile="false" />
     </If>
     <If Condition="OnQuest(44292) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44292) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44292 - WANTED Majestic Elderhorn&quot;);" />
