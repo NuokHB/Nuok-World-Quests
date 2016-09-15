@@ -128,6 +128,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43930 - Fiends of Tel'anor&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\43930 - Fiends of Tel'anor" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(44002) &amp;&amp; PassesSettings(44002)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44002 - Undersea Survey&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44002 - Undersea Survey" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(44026) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44026) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44026 - WANTED Mal'Dreth the Corruptor&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\44026 - WANTED Mal'Dreth the Corruptor" RememberProfile="false" />
