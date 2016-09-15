@@ -33,8 +33,8 @@ return false;", 0);]]></CustomBehavior>
       </If>
       <If Condition="HasQuest(41416)">
         <!--104310-->
-        <CustomBehavior File="KillUntilComplete" MobIds="104310" TerminateWhen="!HasQuest(41416) || IsObjectiveComplete(2, 41416)" X="4583.672" Y="4089.551" Z="968.8333" />
-        <CustomBehavior File="KillUntilComplete" MobIds="104615, 111184" TerminateWhen="!HasQuest(41416) || IsObjectiveComplete(1, 41416)">
+        <CustomBehavior File="KillUntilComplete" MobId="104310" TerminateWhen="!HasQuest(41416) || IsObjectiveComplete(2, 41416)" X="4583.672" Y="4089.551" Z="968.8333" />
+        <CustomBehavior File="KillUntilComplete" MobId="104302" TerminateWhen="!HasQuest(41416) || IsObjectiveComplete(1, 41416)">
           <HuntingGrounds>
             <Hotspot X="4609.557" Y="4063.193" Z="961.2897" />
             <Hotspot X="4687.233" Y="4012.84" Z="899.2305" />
