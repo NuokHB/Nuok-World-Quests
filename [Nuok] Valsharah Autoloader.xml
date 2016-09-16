@@ -139,6 +139,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42145 - Out of the Woodwork&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42145 - Out of the Woodwork" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(42174) &amp;&amp; PassesSettings(42174)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42174 - Champions of Elune&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42174 - Champions of Elune" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(43101) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(43101)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43101 - DANGER Witchdoctor Grgl-Brgl&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43101 - DANGER Witchdoctor Grgl-Brgl" RememberProfile="false" />
@@ -146,6 +150,10 @@ return 0;";
     <If Condition="OnQuest(43336) &amp;&amp; PassesSettings(43336)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43336 - Purge of the Nightmare&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43336 - Purge of the Nightmare" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43459) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43459) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43459 - WANTED Thondrax&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43459 - WANTED Thondrax" RememberProfile="false" />
     </If>
     <If Condition="OnQuest(43629) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43629) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43629 - WANTED Kiranys Duskwhisper&quot;);" />
@@ -163,9 +171,9 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44299 - WANTED Darkshade&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44299 - WANTED Darkshade" RememberProfile="false" />
     </If>
-    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\Flight Master's Whistle" RememberProfile="false" />
+    <If Condition="OnQuest(44302) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44302) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44302 - WANTED Seersei&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44302 - WANTED Seersei" RememberProfile="false" />
     </If>
   </QuestOrder>
 </HBProfile>

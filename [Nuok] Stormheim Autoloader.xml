@@ -123,9 +123,5 @@ return 0;";
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do OrderHall Quests {Settings.Instance.OrderHall}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Gold Quests {Settings.Instance.Gold}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
-    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Stormheim\Flight Master's Whistle" RememberProfile="false" />
-    </If>
   </QuestOrder>
 </HBProfile>

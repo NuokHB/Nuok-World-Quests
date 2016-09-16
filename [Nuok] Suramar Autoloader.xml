@@ -147,9 +147,5 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44121 - DANGER Az'jatar&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\44121 - DANGER Az'jatar" RememberProfile="false" />
     </If>
-    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Suramar\Flight Master's Whistle" RememberProfile="false" />
-    </If>
   </QuestOrder>
 </HBProfile>

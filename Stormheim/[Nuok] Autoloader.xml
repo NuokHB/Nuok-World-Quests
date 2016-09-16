@@ -115,9 +115,5 @@ return 0;";
             }
             return false;
         }]]></CustomBehavior>
-    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Flight Master's Whistle" RememberProfile="false" />
-    </If>
   </QuestOrder>
 </HBProfile>
