@@ -167,9 +167,9 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42620 - WANTED Arcavellus&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="42620 - WANTED Arcavellus" RememberProfile="false" />
     </If>
-    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Flight Master's Whistle" RememberProfile="false" />
+    <If Condition="OnQuest(43610) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43610)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43610 - WANTED Infernal Lord&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43610 - WANTED Infernal Lord" RememberProfile="false" />
     </If>
   </QuestOrder>
 </HBProfile>
