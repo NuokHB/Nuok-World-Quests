@@ -131,6 +131,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42021 - Investigation at Mak'rana&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="42021 - Investigation at Mak'rana" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(42026) &amp;&amp; PassesSettings(42026)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42026 - Faronaar in Ruin&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="42026 - Faronaar in Ruin" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(42027) &amp;&amp; PassesSettings(42027)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42027 - Faronaar in Chaos&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="42027 - Faronaar in Chaos" RememberProfile="false" />

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Faronaar in Ruin</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42026 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(42026)">
+        <RunTo X="-586.6716" Y="7278.354" Z="27.93783" />
+      </If>
+      <If Condition="HasQuest(42026)">
+        <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="249416" TerminateWhen="IsObjectiveComplete(1, 42026) || !HasQuest(42026)">
+          <HuntingGrounds>
+            <Hotspot X="-586.6716" Y="7278.354" Z="27.93783" />
+            <Hotspot X="-634.724" Y="7276.858" Z="26.09789" />
+            <Hotspot X="-703.6656" Y="7251.047" Z="26.74458" />
+            <Hotspot X="-798.7197" Y="7220.726" Z="27.0467" />
+            <Hotspot X="-803.1471" Y="7295.706" Z="38.73455" />
+            <Hotspot X="-741.4937" Y="7333.878" Z="15.01436" />
+          </HuntingGrounds>
+        </CustomBehavior>
+        <CustomBehavior File="KillUntilComplete" MobIds="103231, 103363" TerminateWhen="!HasQuest(42026) || IsObjectiveComplete(2, 42026)">
+          <HuntingGrounds>
+            <Hotspot X="-586.6716" Y="7278.354" Z="27.93783" />
+            <Hotspot X="-634.724" Y="7276.858" Z="26.09789" />
+            <Hotspot X="-703.6656" Y="7251.047" Z="26.74458" />
+            <Hotspot X="-798.7197" Y="7220.726" Z="27.0467" />
+            <Hotspot X="-803.1471" Y="7295.706" Z="38.73455" />
+            <Hotspot X="-741.4937" Y="7333.878" Z="15.01436" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
