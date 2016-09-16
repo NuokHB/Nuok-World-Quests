@@ -61,6 +61,9 @@ return false", 0); }]]></CustomBehavior>
 
         [Setting]
         public bool Gold { get; set; }
+
+        [Setting]
+        public bool UseWhistle { get; set; }
     }]]></CustomBehavior>
     <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
         {
@@ -159,6 +162,10 @@ return 0;";
     <If Condition="OnQuest(44299) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44299) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44299 - WANTED Darkshade&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44299 - WANTED Darkshade" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\Flight Master's Whistle" RememberProfile="false" />
     </If>
   </QuestOrder>
 </HBProfile>

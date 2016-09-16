@@ -61,6 +61,9 @@ return false", 0); }]]></CustomBehavior>
 
         [Setting]
         public bool Gold { get; set; }
+
+        [Setting]
+        public bool UseWhistle { get; set; }
     }]]></CustomBehavior>
     <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
         {
@@ -112,5 +115,9 @@ return 0;";
             }
             return false;
         }]]></CustomBehavior>
+    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Flight Master's Whistle" RememberProfile="false" />
+    </If>
   </QuestOrder>
 </HBProfile>

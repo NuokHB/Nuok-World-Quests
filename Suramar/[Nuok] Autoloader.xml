@@ -61,6 +61,9 @@ return false", 0); }]]></CustomBehavior>
 
         [Setting]
         public bool Gold { get; set; }
+
+        [Setting]
+        public bool UseWhistle { get; set; }
     }]]></CustomBehavior>
     <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
         {
@@ -116,6 +119,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42082 - The Shattered Locus&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="42082 - The Shattered Locus" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(43445) &amp;&amp; PassesSettings(43445)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43445 - Air Superiority&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43445 - Air Superiority" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(43930) &amp;&amp; PassesSettings(43930)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43930 - Fiends of Tel'anor&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="43930 - Fiends of Tel'anor" RememberProfile="false" />
@@ -131,6 +138,10 @@ return 0;";
     <If Condition="OnQuest(44121) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(44121)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44121 - DANGER Az'jatar&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="44121 - DANGER Az'jatar" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(Fligh) &amp;&amp; PassesSettings(Fligh)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading Flight Master's Whistle&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Flight Master's Whistle" RememberProfile="false" />
     </If>
   </QuestOrder>
 </HBProfile>
