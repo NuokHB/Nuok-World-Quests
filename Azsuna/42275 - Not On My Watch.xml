@@ -28,6 +28,9 @@ if (taskInfo) then
 end
 return false;", 0);]]></CustomBehavior>
     <While Condition="OnQuest">
+      <If Condition="!HasQuest(42275)">
+        <RunTo X="-517.9566" Y="7675.077" Z="140.6994" />
+      </If>
       <If Condition="!IsObjectiveComplete(2, 42275)">
         <!--<GameObject Name="Dimensional Anchor" Entry="250375" X="-517.9566" Y="7675.077" Z="140.6994" />-->
         <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="250375" TerminateWhen="IsObjectiveComplete(2, 42275) || !HasQuest(42275)">
