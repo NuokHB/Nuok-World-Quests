@@ -139,6 +139,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41685 - DANGER Ala'washte&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="41685 - DANGER Ala'washte" RememberProfile="false" />
     </If>
+    <If Condition="OnQuest(41691) &amp;&amp; PassesSettings(41691)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41691 - Sea of Feathers&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="41691 - Sea of Feathers" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(41701) &amp;&amp; PassesSettings(41701)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41701 - Gettin' Tuffer&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="41701 - Gettin' Tuffer" RememberProfile="false" />
