@@ -135,7 +135,7 @@ return false;", 0);]]></CustomBehavior>
         </While>
         <While Condition="!IsObjectiveComplete(3, 41701)">
           <CustomBehavior File="RunCode" Code="await VehicleKill(104597);"/>
-          <CustomBehavior File="RunCode" Code="await VehicleMove(new Vector3(6293.563f, 3952.585f, 6.251153));"/>
+          <CustomBehavior File="RunCode" Code="await VehicleMove(new Vector3(6293.563f, 3952.585f, 6.251153f));"/>
         </While>
       </If>
       <EnableBehavior Name="All" />
