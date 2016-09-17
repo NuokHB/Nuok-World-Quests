@@ -46,11 +46,7 @@ return false;", 0);]]></CustomBehavior>
                 ObjectManager.GetObjectsOfType<WoWUnit>()
                     .OrderBy(u => u.Distance)
                     .FirstOrDefault(u => u.IsValid && u.Entry == 104599);
-            var tufferfish =
-                ObjectManager.GetObjectsOfType<WoWUnit>()
-                    .OrderBy(u => u.Distance)
-                    .FirstOrDefault(u => u.IsValid && u.Entry == 104598);
-
+                    
             while (!IsObjectiveComplete(2, 41701) && Me.HasAura(206919))
             {
                 if(slimeweed != null)
@@ -64,38 +60,28 @@ return false;", 0);]]></CustomBehavior>
                     await Coroutine.Sleep(500);
                 }
             }
-
-            while (!IsObjectiveComplete(1, 41701) && Me.HasAura(206919))
-            {
-                if (tufferfish != null && !IsObjectiveComplete(1, 41145))
-                    {
-                    await VehicleCombat(tufferfish);
-                    await Coroutine.Sleep(500);
-                    }
-            }
         }
 
 					async Task VehicleKill(uint unitId)
 					{
-						WoWUnit killMe = Unit(unitId, u => u.IsAlive);
-						if (killMe == null || Blacklist.Contains(killMe, BlacklistFlags.Combat)) return;
+						WoWUnit killMe = ObjectManager.GetObjectsOfType<WoWUnit>()
+                    .Where(u => u.IsValid && u.Entry == unitId && u.IsAlive)
+                    .OrderBy(u => u.Distance)
+                    .FirstOrDefault();
+                    
+						if (killMe == null) return;
 
-						while (killMe != null && killMe.IsAlive)
-						{
-							if (Me.Location.Distance(killMe.Location) >= 5)
-							{
-								Navigator.MoveTo(killMe.Location);
-								await CombatAwareness();
-								await Coroutine.Yield();
-							}
-
-							if (killMe.IsAlive)
+							if (Me.Location.Distance(killMe.Location) <= 5)
 							{
 								await VehicleCombat(killMe);
 								await Coroutine.Yield();
+                return;
 							}
-							await Coroutine.Yield();
-						}
+              
+								Navigator.MoveTo(killMe.Location);
+								await CombatAwareness();
+								await Coroutine.Yield();
+                return;
 					}
 
 					async Task VehicleCombat(WoWUnit vehicleKill)
@@ -127,6 +113,7 @@ return false;", 0);]]></CustomBehavior>
 								await CommonCoroutines.StopMoving();
 								StyxWoW.Me.SetFacing(killMe.Location);
 								await VehicleCombat(killMe);
+                await Coroutine.Sleep(500);
 								await Coroutine.Yield();
 							}
 						}
@@ -140,7 +127,16 @@ return false;", 0);]]></CustomBehavior>
       <If Condition="Me.HasAura(206919)">
         <!--<Aura Name="Murky" SpellId="206919" StackCount="0" TimeLeft="00:00:00" Flags="Passive, Cancelable" />-->
         <DisableBehavior Name="All" />
-        <CustomBehavior File="RunCode" Code="await DoQuest();"/>   
+        <While Condition="!IsObjectiveComplete(2, 41701)">
+          <CustomBehavior File="RunCode" Code="await DoQuest();"/>
+        </While>
+        <While Condition="!IsObjectiveComplete(1, 41701)">
+          <CustomBehavior File="RunCode" Code="await VehicleKill(104598);"/>
+        </While>
+        <While Condition="!IsObjectiveComplete(3, 41701)">
+          <CustomBehavior File="RunCode" Code="await VehicleKill(104597);"/>
+          <CustomBehavior File="RunCode" Code="await VehicleMove(new Vector3(6293.563f, 3952.585f, 6.251153));"/>
+        </While>
       </If>
       <EnableBehavior Name="All" />
     </While>
