@@ -115,5 +115,9 @@ return 0;";
             }
             return false;
         }]]></CustomBehavior>
+    <If Condition="OnQuest(43951) &amp;&amp; PassesSettings(43951)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43951 - An Overdue Debt&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="43951 - An Overdue Debt" RememberProfile="false" />
+    </If>
   </QuestOrder>
 </HBProfile>

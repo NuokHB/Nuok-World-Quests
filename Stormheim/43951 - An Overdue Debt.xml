@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] An Overdue Debt</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1017);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1017)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 43951 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(43951)">
+        <RunTo X="2439.255" Y="2399.711" Z="256.4826" />
+      </If>
+      <If Condition="HasQuest(43951)">
+        <!--<GameObject Name="Prisoner Cage" Entry="247985" X="2408.172" Y="2382.78" Z="257.3202" />-->
+        <CustomBehavior File="InteractWith" MobId="247985" NumOfTimes="100" TerminateWhen="!OnQuest || !HasQuest(43951)">
+          <HuntingGrounds>
+            <Hotspot X="2424.88" Y="2384.232" Z="256.4846" />
+            <Hotspot X="2484.3" Y="2451.28" Z="256.361" />
+            <Hotspot X="2602.351" Y="2416.233" Z="233.3781" />
+            <Hotspot X="2663.611" Y="2446.936" Z="217.5868" />
+            <Hotspot X="2634.414" Y="2499.159" Z="221.9603" />
+            <Hotspot X="2561.724" Y="2591.184" Z="235.468" />
+            <Hotspot X="2521.897" Y="2495.943" Z="249.0589" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
