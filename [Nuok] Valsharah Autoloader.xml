@@ -123,6 +123,10 @@ return 0;";
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do OrderHall Quests {Settings.Instance.OrderHall}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Gold Quests {Settings.Instance.Gold}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
+    <If Condition="OnQuest(41518) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41518)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41518 - Felwort&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41518 - Felwort" RememberProfile="false" />
+    </If>
     <If Condition="OnQuest(41965) &amp;&amp; PassesSettings(41965)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41965 - Lunarwing Liberation&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41965 - Lunarwing Liberation" RememberProfile="false" />
@@ -162,6 +166,10 @@ return 0;";
     <If Condition="OnQuest(43630) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43630) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43630 - WANTED Perrexx&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43630 - WANTED Perrexx" RememberProfile="false" />
+    </If>
+    <If Condition="OnQuest(43738) &amp;&amp; PassesSettings(43738)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43738 - Coastal Gloom&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43738 - Coastal Gloom" RememberProfile="false" />
     </If>
     <If Condition="OnQuest(44033) &amp;&amp; PassesSettings(44033)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44033 - Aw, Nuts!&quot;);" />

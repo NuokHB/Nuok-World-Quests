@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Coastal Gloom</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1018);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 43738 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(43738)">
+        <RunTo X="2671.341" Y="7650.461" Z="2.150022" />
+      </If>
+      <If Condition="HasQuest(43738)">
+        <CustomBehavior File="KillUntilComplete" TerminateWhen="!HasQuest(43738)">
+          <HuntingGrounds>
+            <Hotspot X="2671.341" Y="7650.461" Z="2.150022" />
+            <Hotspot X="2705.603" Y="7720.688" Z="1.155335" />
+            <Hotspot X="2748.01" Y="7792.898" Z="0.8880399" />
+            <Hotspot X="2776.541" Y="7844.737" Z="1.544692" />
+            <Hotspot X="2824.62" Y="7843.617" Z="1.44031" />
+          </HuntingGrounds>
+          <PursuitList>
+            <PursueUnit Id="111383" PursueWhen="!IsObjectiveComplete(1, 43738)" />
+            <PursueUnit Id="111384" PursueWhen="!IsObjectiveComplete(2, 43738)" />
+          </PursuitList>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
