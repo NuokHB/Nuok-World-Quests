@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] World Quest Auto Loader</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[
+        private HashSet<int> GetWorldQuestsByZone(int zone)
+        {
+            var lua = $@"SetMapByID({zone})
+local ids = {{}}
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID({zone})
+if (taskInfo) then
+	for i, info  in ipairs(taskInfo) do
+		if HaveQuestData(info.questId) then
+			if QuestMapFrame_IsQuestWorldQuest(info.questId) then
+			local distance = C_TaskQuest.GetDistanceSqToQuest(info.questId)
+                    local distance = C_TaskQuest.GetDistanceSqToQuest(info.questId)
+                    local quest = info.questId   
+                    tinsert (ids, quest)
+                    end
+                end
+            end
+       end
+return unpack(ids)";
+            var getResult = Lua.GetReturnValues(lua);
+            var list = new HashSet<int>();
+            foreach (var r in getResult)
+            {
+                list.Add(Lua.ParseLuaValue<int>(r));
+            }
+            return list;
+        }
+
+        public static HashSet<int> WorldQuest = new HashSet<int>();
+
+        public void Update()
+        {
+            WorldQuest.Clear();
+
+            var zones = new HashSet<int>
+            {
+                1015,
+                1018,
+                1024,
+                1017,
+                1033,
+                1096
+            };
+
+            foreach (var z in zones)
+            {
+                var quest = GetWorldQuestsByZone(z);
+                foreach (var q in quest)
+                {
+                    WorldQuest.Add(q);
+                }
+            }
+        }
+
+        public bool OnQuest(int id)
+        {
+            return WorldQuest.Contains(id);
+        }
+
+        public bool ZoneEnabled(int zoneId)
+        {
+            switch (zoneId)
+            {
+                case 1015:
+                    return Settings.Instance.Azsuna;
+                case 1018:
+                    return Settings.Instance.Valsharah;
+                case 1017:
+                    return Settings.Instance.Stormheim;
+                case 1033:
+                    return Settings.Instance.Suramar;
+                case 1096:
+                    return Settings.Instance.Highmountain;
+                case 1024:
+                    return Settings.Instance.EyeofAzshara;
+            }
+            return false;
+        }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[    public class Settings : Styx.Helpers.Settings
+    {
+        public static readonly string _settingsPath = Path.Combine(CharacterSettingsDirectory, "Profiles",
+            "NuokWorldQuestSettings.xml");
+
+        private static Settings _instance;
+
+        public static Settings Instance => _instance ?? (_instance = new Settings());
+
+        public Settings() : base(_settingsPath)
+        {
+        }
+
+        [Setting]
+        public bool DoWanted { get; set; }
+
+        [Setting]
+        public bool DoDangerQuests { get; set; }
+
+        [Setting]
+        public bool ArtifactPower { get; set; }
+
+        [Setting]
+        public bool Equipment { get; set; }
+
+        [Setting]
+        public bool Blood { get; set; }
+
+        [Setting]
+        public bool OrderHall { get; set; }
+
+        [Setting]
+        public bool Gold { get; set; }
+
+        [Setting]
+        public bool UseWhistle { get; set; }
+
+        [Setting]
+        public bool Azsuna { get; set; }
+
+        [Setting]
+        public bool Valsharah { get; set; }
+
+        [Setting]
+        public bool Stormheim { get; set; }
+
+        [Setting]
+        public bool Suramar { get; set; }
+
+        [Setting]
+        public bool Highmountain { get; set; }
+
+        [Setting]
+        public bool EyeofAzshara { get; set; }
+    }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public int QuestRewardType(int questId)
+        {
+            var questLua = $@"local numQuestCurrencies = GetNumQuestLogRewardCurrencies({questId});
+local money = GetQuestLogRewardMoney({questId});
+local artifactXP  = GetQuestLogRewardArtifactXP({questId});
+local numQuestRewards = GetNumQuestLogRewards({questId})
+if numQuestCurrencies > 0 then
+    return 5;
+end
+
+if money > 0 then 
+    return 1;
+end
+
+if artifactXP > 0 then 
+    return 2;
+end
+
+if numQuestRewards > 0 then 
+    local name, texture, numItems, quality, isUsable, itemID = GetQuestLogRewardInfo(1, {questId});
+        if itemID == 124124 then 
+	    return 3;
+	    end
+    return 4;
+end
+    
+
+return 0;";
+            return Lua.GetReturnVal<int>(questLua, 0);
+        }
+
+        public bool PassesSettings(int questId)
+        {
+            //return error = 0, gold = 1, artifactpower = 2, items = 3, blood = 4, currency = 5
+            var rewardType = QuestRewardType(questId);
+            switch (rewardType)
+            {
+                case 1:
+                    return Settings.Instance.Gold;
+                case 2:
+                    return Settings.Instance.ArtifactPower;
+                case 3:
+                    return Settings.Instance.Equipment;
+                case 4:
+                    return Settings.Instance.Blood;
+                case 5:
+                    return Settings.Instance.OrderHall;
+            }
+            return false;
+        }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Welcome To Nuoks World Quests&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do WANTED Quests {Settings.Instance.DoWanted}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do DANGEROUS Quests {Settings.Instance.DoDangerQuests}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do ArtifactPower Quests {Settings.Instance.ArtifactPower}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Equipment Quests {Settings.Instance.Equipment}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do OrderHall Quests {Settings.Instance.OrderHall}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Gold Quests {Settings.Instance.Gold}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Update();" />
+    <If Condition="ZoneEnabled(1015) &amp;&amp; OnQuest(41545) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41545)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41545 - Aethril Cluster&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\41545 - Aethril Cluster" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp; OnQuest(41564) &amp;&amp; Me.GetSkill(Styx.SkillLine.Skinning).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41564)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41564 - Felhide&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\41564 - Felhide" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42018) &amp;&amp; PassesSettings(42018)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42018 - Those Beyond Redemption&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42018 - Those Beyond Redemption" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42021) &amp;&amp; PassesSettings(42021)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42021 - Investigation at Mak'rana&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42021 - Investigation at Mak'rana" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42026) &amp;&amp; PassesSettings(42026)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42026 - Faronaar in Ruin&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42026 - Faronaar in Ruin" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42027) &amp;&amp; PassesSettings(42027)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42027 - Faronaar in Chaos&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42027 - Faronaar in Chaos" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42108) &amp;&amp; PassesSettings(42108)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42108 - Rally the Nightwatchers&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42108 - Rally the Nightwatchers" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42119) &amp;&amp; PassesSettings(42119)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42119 - A Cleansing Cocktail&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42119 - A Cleansing Cocktail" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42123) &amp;&amp; PassesSettings(42123)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42123 - Reclaiming Llothien&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42123 - Reclaiming Llothien" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42172) &amp;&amp; PassesSettings(42172)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42172 - Leyhollow Infestation&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42172 - Leyhollow Infestation" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42211) &amp;&amp; PassesSettings(42211)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42211 - Leodrath's Kin&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42211 - Leodrath's Kin" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42275) &amp;&amp; PassesSettings(42275)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42275 - Not On My Watch&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42275 - Not On My Watch" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42511) &amp;&amp; PassesSettings(42511)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42511 - Twisted Souls&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42511 - Twisted Souls" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42620) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(42620) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42620 - WANTED Arcavellus&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42620 - WANTED Arcavellus" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(43610) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43610) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43610 - WANTED Infernal Lord&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Azsuna\43610 - WANTED Infernal Lord" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1017) &amp;&amp;  OnQuest(43951) &amp;&amp; PassesSettings(43951)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43951 - An Overdue Debt&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Stormheim\43951 - An Overdue Debt" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp; OnQuest(41518) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41518)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41518 - Felwort&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41518 - Felwort" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41965) &amp;&amp; PassesSettings(41965)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41965 - Lunarwing Liberation&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41965 - Lunarwing Liberation" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41996) &amp;&amp; PassesSettings(41996)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41996 - Tangled Nightmare&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41996 - Tangled Nightmare" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(42076) &amp;&amp; PassesSettings(42076)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42076 - Shadowfen Village&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42076 - Shadowfen Village" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(42145) &amp;&amp; PassesSettings(42145)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42145 - Out of the Woodwork&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42145 - Out of the Woodwork" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(42174) &amp;&amp; PassesSettings(42174)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42174 - Champions of Elune&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42174 - Champions of Elune" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43101) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(43101)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43101 - DANGER Witchdoctor Grgl-Brgl&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43101 - DANGER Witchdoctor Grgl-Brgl" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43336) &amp;&amp; PassesSettings(43336)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43336 - Purge of the Nightmare&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43336 - Purge of the Nightmare" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43459) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43459) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43459 - WANTED Thondrax&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43459 - WANTED Thondrax" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43629) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43629) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43629 - WANTED Kiranys Duskwhisper&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43629 - WANTED Kiranys Duskwhisper" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43630) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(43630) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43630 - WANTED Perrexx&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43630 - WANTED Perrexx" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43738) &amp;&amp; PassesSettings(43738)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43738 - Coastal Gloom&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43738 - Coastal Gloom" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(44033) &amp;&amp; PassesSettings(44033)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44033 - Aw, Nuts!&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44033 - Aw, Nuts!" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(44299) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44299) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44299 - WANTED Darkshade&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44299 - WANTED Darkshade" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(44302) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44302) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44302 - WANTED Seersei&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44302 - WANTED Seersei" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(40978) &amp;&amp; PassesSettings(40978)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 40978 - Bears Behaving Badly&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\40978 - Bears Behaving Badly" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41144) &amp;&amp; PassesSettings(41144)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41144 - Return to the River&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41144 - Return to the River" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41145) &amp;&amp; PassesSettings(41145)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41145 - Water of Life&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41145 - Water of Life" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41416) &amp;&amp; PassesSettings(41416)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41416 - Retake the Skyhorn&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41416 - Retake the Skyhorn" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41428) &amp;&amp; PassesSettings(41428)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41428 - Unstable Portal&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41428 - Unstable Portal" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41685) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(41685)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41685 - DANGER Ala'washte&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41685 - DANGER Ala'washte" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41691) &amp;&amp; PassesSettings(41691)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41691 - Sea of Feathers&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41691 - Sea of Feathers" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41701) &amp;&amp; PassesSettings(41701)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41701 - Gettin' Tuffer&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41701 - Gettin' Tuffer" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41703) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(41703)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41703 - DANGER Ormagrogg&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41703 - DANGER Ormagrogg" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41705) &amp;&amp; PassesSettings(41705)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41705 - Assault on Thunder Totem&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41705 - Assault on Thunder Totem" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41789) &amp;&amp; PassesSettings(41789)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41789 - Return to the Crag&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41789 - Return to the Crag" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41794) &amp;&amp; PassesSettings(41794)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41794 - Drakestalker&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41794 - Drakestalker" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41844) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(41844) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41844 - WANTED Sekhan&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41844 - WANTED Sekhan" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(44291) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44291) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44291 - WANTED Crawshuk the Hungry&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\44291 - WANTED Crawshuk the Hungry" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(44292) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44292) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44292 - WANTED Majestic Elderhorn&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Highmountain\44292 - WANTED Majestic Elderhorn" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(42082) &amp;&amp; PassesSettings(42082)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42082 - The Shattered Locus&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\42082 - The Shattered Locus" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(43445) &amp;&amp; PassesSettings(43445)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43445 - Air Superiority&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\43445 - Air Superiority" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(43807) &amp;&amp; PassesSettings(43807)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43807 - Withered Wrangling Meredil and Ambervale&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\43807 - Withered Wrangling Meredil and Ambervale" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(43930) &amp;&amp; PassesSettings(43930)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43930 - Fiends of Tel'anor&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\43930 - Fiends of Tel'anor" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44002) &amp;&amp; PassesSettings(44002)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44002 - Undersea Survey&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44002 - Undersea Survey" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44024) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44024) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44024 - WANTED Shal'an&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44024 - WANTED Shal'an" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44026) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44026) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44026 - WANTED Mal'Dreth the Corruptor&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44026 - WANTED Mal'Dreth the Corruptor" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44121) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(44121)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44121 - DANGER Az'jatar&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44121 - DANGER Az'jatar" RememberProfile="false" />
+    </If>
+  </QuestOrder>
+</HBProfile>

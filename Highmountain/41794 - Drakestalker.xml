@@ -32,6 +32,6 @@ return false;", 0);]]></CustomBehavior>
     <While Condition="OnQuest">
       <Objective QuestName="Drakestalker" QuestId="41794" Type="CollectItem" Nav="Fly" ItemId="136369" CollectCount="30" />
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

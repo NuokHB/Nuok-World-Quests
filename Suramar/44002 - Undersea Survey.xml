@@ -43,6 +43,6 @@ return false;", 0);]]></CustomBehavior>
         <Objective QuestName="Undersea Survey" QuestId="44002" Type="UseObject" Nav="Fly" ObjectId="253088" UseCount="1" />
       </If>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

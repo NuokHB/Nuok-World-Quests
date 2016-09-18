@@ -57,6 +57,6 @@ return false;", 0);
       </If>
     </While>
     <EnableBehavior Name="All" />
-    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>
