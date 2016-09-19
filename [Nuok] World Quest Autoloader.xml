@@ -269,6 +269,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43610 - WANTED Infernal Lord&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Azsuna\43610 - WANTED Infernal Lord" RememberProfile="false" />
     </If>
+    <If Condition="ZoneEnabled(1017) &amp;&amp; OnQuest(41568) &amp;&amp; Me.GetSkill(Styx.SkillLine.Skinning).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41568)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41568 - Felhide&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Stormheim\41568 - Felhide" RememberProfile="false" />
+    </If>
     <If Condition="ZoneEnabled(1017) &amp;&amp;  OnQuest(43951) &amp;&amp; PassesSettings(43951)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43951 - An Overdue Debt&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Stormheim\43951 - An Overdue Debt" RememberProfile="false" />
