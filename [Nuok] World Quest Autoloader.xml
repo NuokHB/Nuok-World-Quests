@@ -45,7 +45,7 @@ return unpack(ids)";
             return list;
         }
 
-        public static HashSet<int> WorldQuest = new HashSet<int>();
+        public Dictionary<int, int> WorldQuest = new Dictionary<int, int>();
 
         public void Update()
         {
@@ -66,33 +66,32 @@ return unpack(ids)";
                 var quest = GetWorldQuestsByZone(z);
                 foreach (var q in quest)
                 {
-                    WorldQuest.Add(q);
+                    var t = QuestRewardType(q);
+                    Logging.Write($"Found Quest {q} type {t}");
+                    WorldQuest.Add(q, t);
                 }
             }
         }
 
         public bool OnQuest(int id)
         {
-            return WorldQuest.Contains(id);
+            return WorldQuest.ContainsKey(id);
         }
 
         public bool ZoneEnabled(int zoneId)
         {
-            switch (zoneId)
-            {
-                case 1015:
-                    return Settings.Instance.Azsuna;
-                case 1018:
-                    return Settings.Instance.Valsharah;
-                case 1017:
-                    return Settings.Instance.Stormheim;
-                case 1033:
-                    return Settings.Instance.Suramar;
-                case 1096:
-                    return Settings.Instance.Highmountain;
-                case 1024:
-                    return Settings.Instance.EyeofAzshara;
-            }
+			if(zoneId == 1015)
+                return Settings.Instance.Azsuna;
+        	if(zoneId == 1018)
+                return Settings.Instance.Valsharah;
+            if(zoneId ==  1017)
+                return Settings.Instance.Stormheim;
+            if(zoneId ==  1033)
+                return Settings.Instance.Suramar;
+            if(zoneId ==  1096)
+                return Settings.Instance.Highmountain;
+            if(zoneId ==  1024)
+                 return Settings.Instance.EyeofAzshara;
             return false;
         }]]></CustomBehavior>
     <CustomBehavior File="RunCode" Type="Definition"><![CDATA[    public class Settings : Styx.Helpers.Settings
@@ -171,9 +170,9 @@ end
 if numQuestRewards > 0 then 
     local name, texture, numItems, quality, isUsable, itemID = GetQuestLogRewardInfo(1, {questId});
         if itemID == 124124 then 
-	    return 3;
+	    return 4;
 	    end
-    return 4;
+    return 3;
 end
     
 
@@ -184,23 +183,23 @@ return 0;";
         public bool PassesSettings(int questId)
         {
             //return error = 0, gold = 1, artifactpower = 2, items = 3, blood = 4, currency = 5
-            var rewardType = QuestRewardType(questId);
-            switch (rewardType)
-            {
-                case 1:
-                    return Settings.Instance.Gold;
-                case 2:
-                    return Settings.Instance.ArtifactPower;
-                case 3:
-                    return Settings.Instance.Equipment;
-                case 4:
-                    return Settings.Instance.Blood;
-                case 5:
-                    return Settings.Instance.OrderHall;
-            }
+            var rewardType = WorldQuest[questId];
+            Logging.Write($"QuestRewardType return {rewardType} for {questId}");
+            if(rewardType == 1)
+                return Settings.Instance.Gold;
+            if (rewardType == 2)
+                return Settings.Instance.ArtifactPower;
+            if (rewardType == 3)
+                return Settings.Instance.Equipment;
+            if (rewardType == 4)
+                return Settings.Instance.Blood;
+            if (rewardType == 5)
+                return Settings.Instance.OrderHall;
             return false;
         }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Code="Update();" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Welcome To Nuoks World Quests&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Found {WorldQuest.Count} WorldQuests&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do WANTED Quests {Settings.Instance.DoWanted}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do DANGEROUS Quests {Settings.Instance.DoDangerQuests}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do ArtifactPower Quests {Settings.Instance.ArtifactPower}&quot;);" />
@@ -208,7 +207,13 @@ return 0;";
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do OrderHall Quests {Settings.Instance.OrderHall}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Gold Quests {Settings.Instance.Gold}&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
-    <CustomBehavior File="RunCode" Code="Update();" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Azsuna {Settings.Instance.Azsuna}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Valsharah {Settings.Instance.Valsharah}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Stormheim {Settings.Instance.Stormheim}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Suramar {Settings.Instance.Suramar}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Highmountain {Settings.Instance.Highmountain}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;EyeofAzshara {Settings.Instance.EyeofAzshara}&quot;);" />
+    <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Do Blood Quests {Settings.Instance.Blood}&quot;);" />
     <If Condition="ZoneEnabled(1015) &amp;&amp; OnQuest(41545) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41545)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41545 - Aethril Cluster&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Azsuna\41545 - Aethril Cluster" RememberProfile="false" />

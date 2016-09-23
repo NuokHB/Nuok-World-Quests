@@ -33,6 +33,6 @@ return false;", 0);]]></CustomBehavior>
       </If>
       <CustomBehavior File="KillUntilComplete" MobIds="97345" TerminateWhen="!HasQuest(44291)" X="5053.544" Y="4275.133" Z="906.4003" />
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="[Nuok] Autoloader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>
