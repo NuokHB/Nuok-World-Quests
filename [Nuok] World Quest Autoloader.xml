@@ -310,6 +310,10 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43101 - DANGER Witchdoctor Grgl-Brgl&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43101 - DANGER Witchdoctor Grgl-Brgl" RememberProfile="false" />
     </If>
+    <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43248) &amp;&amp; PassesSettings(43248)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43248 - Warden Tower Assault Darkfollow's Spire&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43248 - Warden Tower Assault Darkfollow's Spire" RememberProfile="false" />
+    </If>
     <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43336) &amp;&amp; PassesSettings(43336)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43336 - Purge of the Nightmare&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43336 - Purge of the Nightmare" RememberProfile="false" />
