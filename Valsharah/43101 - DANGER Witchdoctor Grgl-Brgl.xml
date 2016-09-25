@@ -17,7 +17,9 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+    <CustomBehavior File="RunCode" Type="Definition">
+    <![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1018);
+    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 43101 then
@@ -30,6 +32,6 @@ return false;", 0);]]></CustomBehavior>
       <!--<WoWUnit Name="Witchdoctor Grgl-Brgl" Entry="109648" X="2353.948" Y="8295.795" Z="-24.36235" />-->
       <CustomBehavior File="KillUntilComplete" MobId="109648"  TerminateWhen="!OnQuest" X="2353.948" Y="8295.795" Z="-24.36235" />
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

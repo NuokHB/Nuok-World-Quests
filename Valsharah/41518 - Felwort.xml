@@ -36,6 +36,6 @@ return false;", 0);]]></CustomBehavior>
         <CustomBehavior File="InteractWith" MobId="248006"  NumOfTimes="40" TerminateWhen="!HasQuest(41518)" X="2678.738" Y="7516.107" Z="6.26475" />
       </If>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>
