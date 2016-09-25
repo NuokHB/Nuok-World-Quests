@@ -33,7 +33,7 @@ return false;", 0);]]></CustomBehavior>
         <RunTo X="2272.27" Y="7353.819" Z="1.073322" />
       </If>
       <If Condition="HasQuest(43248)">
-        <CustomBehavior File="KillUntilComplete" MobId="103768"
+        <CustomBehavior File="KillUntilComplete" MobId="104290"
                         TerminateWhen="!OnQuest || IsObjectiveComplete(3, 43248)" X="2130.532" Y="7516.717"
                         Z="92.08499" />
 

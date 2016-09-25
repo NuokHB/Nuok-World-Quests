@@ -34,7 +34,10 @@ return false;", 0);
             return obectives.All(o => IsObjectiveComplete(o, questId));
         }]]></CustomBehavior>
     <While Condition="OnQuest">
-      <CustomBehavior File="InteractWith" Range="2" TerminateWhen="ObjectivesComplete(41996, 1, 2)">
+      <If Condition="!HasQuest(41996)">
+        <MoveTo X="3506.062" Y="6145.351" Z="188.0756" />
+      </If>
+      <CustomBehavior File="InteractWith" Range="2" TerminateWhen="ObjectivesComplete(41996, 1, 2) || !HasQuest(41996)">
         <HuntingGrounds>
           <Hotspot X="3651.971" Y="6158.476" Z="193.4385" />
           <Hotspot X="3561.113" Y="6163.045" Z="178.2149" />
@@ -47,7 +50,7 @@ return false;", 0);
         </PursuitList>
       </CustomBehavior>
 
-      <CustomBehavior File="KillUntilComplete" MobIds="113646, 112052, 93111"  TerminateWhen="!OnQuest || !ObjectivesComplete(41996, 1, 2)">
+      <CustomBehavior File="KillUntilComplete" MobIds="113646, 112052, 93111"  TerminateWhen="!OnQuest || !ObjectivesComplete(41996, 1, 2) || !HasQuest(41996)">
         <HuntingGrounds>
           <Hotspot X="3651.971" Y="6158.476" Z="193.4385" />
           <Hotspot X="3561.113" Y="6163.045" Z="178.2149" />
