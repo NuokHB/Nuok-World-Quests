@@ -67,7 +67,6 @@ return unpack(ids)";
                 foreach (var q in quest)
                 {
                     var t = QuestRewardType(q);
-                    Logging.Write($"Found Quest {q} type {t}");
                     WorldQuest.Add(q, t);
                 }
             }
@@ -76,6 +75,14 @@ return unpack(ids)";
         public bool OnQuest(int id)
         {
             return WorldQuest.ContainsKey(id);
+        }
+
+        public void EnablePlugin()
+        {
+            var plugin = PluginManager.Plugins.FirstOrDefault(p => p.Name == "WorldQuestHelper");
+            if (plugin == null) return;
+            plugin.Enabled = false;
+            plugin.Enabled = true;
         }
 
         public bool ZoneEnabled(int zoneId)
@@ -184,7 +191,6 @@ return 0;";
         {
             //return error = 0, gold = 1, artifactpower = 2, items = 3, blood = 4, currency = 5
             var rewardType = WorldQuest[questId];
-            Logging.Write($"QuestRewardType return {rewardType} for {questId}");
             if(rewardType == 1)
                 return Settings.Instance.Gold;
             if (rewardType == 2)
@@ -197,6 +203,7 @@ return 0;";
                 return Settings.Instance.OrderHall;
             return false;
         }]]></CustomBehavior>
+    <CustomBehavior File="RunCode" Code="EnablePlugin();" />
     <CustomBehavior File="RunCode" Code="Update();" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Welcome To Nuoks World Quests&quot;);" />
     <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + $&quot;Found {WorldQuest.Count} WorldQuests&quot;);" />
@@ -410,6 +417,14 @@ return 0;";
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42082 - The Shattered Locus&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\42082 - The Shattered Locus" RememberProfile="false" />
     </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(42089) &amp;&amp; PassesSettings(42089)">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42089 - The Fallen Ones&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\42089 - The Fallen Ones" RememberProfile="false" />
+    </If>
+    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(42796) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(42796) ">
+      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42796 - WANTED Broodmother Shu'malis&quot;);" />
+      <CustomBehavior File="LoadProfile" ProfileName="Suramar\42796 - WANTED Broodmother Shu'malis" RememberProfile="false" />
+    </If>
     <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(43445) &amp;&amp; PassesSettings(43445)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43445 - Air Superiority&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\43445 - Air Superiority" RememberProfile="false" />
@@ -421,10 +436,6 @@ return 0;";
     <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(43930) &amp;&amp; PassesSettings(43930)">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43930 - Fiends of Tel'anor&quot;);" />
       <CustomBehavior File="LoadProfile" ProfileName="Suramar\43930 - Fiends of Tel'anor" RememberProfile="false" />
-    </If>
-    <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44002) &amp;&amp; PassesSettings(44002)">
-      <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44002 - Undersea Survey&quot;);" />
-      <CustomBehavior File="LoadProfile" ProfileName="Suramar\44002 - Undersea Survey" RememberProfile="false" />
     </If>
     <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44024) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44024) ">
       <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44024 - WANTED Shal'an&quot;);" />
