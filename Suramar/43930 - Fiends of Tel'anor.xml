@@ -48,6 +48,6 @@ return false;", 0);]]></CustomBehavior>
         </PursuitList>
       </CustomBehavior>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

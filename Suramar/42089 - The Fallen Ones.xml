@@ -39,8 +39,6 @@ return false;", 0);]]></CustomBehavior>
             <Hotspot X="1940.055" Y="5558.27" Z="-67.44088" />
           </HuntingGrounds>
           <PursuitList>
-            <!-- <WoWUnit Name="Drogbar Manathirster" Entry="95866" X="4143.396" Y="5021.266" Z="646.4569" />
-            <WoWUnit Name="Violent Crageater" Entry="95916" X="4194.292" Y="4993.606" Z="693.6869" />-->
             <PursueUnit Id="114793" PursueWhen="!IsObjectiveComplete(1, 42089)" />
             <PursueUnit Id="106276" PursueWhen="!IsObjectiveComplete(1, 42089)" />
             <PursueUnit Id="105625" PursueWhen="!IsObjectiveComplete(1, 42089)" />
@@ -50,6 +48,6 @@ return false;", 0);]]></CustomBehavior>
         <Objective QuestName="The Fallen Ones" QuestId="42089" Type="KillMob" Nav="Fly" MobId="106101" KillCount="10" />
       </If>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>
