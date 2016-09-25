@@ -17,7 +17,8 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 42123 then
@@ -32,8 +33,7 @@ return false;", 0);]]></CustomBehavior>
       </If>
       <If Condition="HasQuest(42123)">
         <CustomBehavior File="KillUntilComplete" MobId="90901" TerminateWhen="!OnQuest || IsObjectiveComplete(2, 42123)" X="528.6858" Y="6134.775" Z="40.52589" />
-
-        <CustomBehavior File="KillUntilComplete" MobId="90313" NumOfTimes="100" Range="2" TerminateWhen="!OnQuest || !IsObjectiveComplete(1, 42119)">
+        <CustomBehavior File="KillUntilComplete" MobId="90313" NumOfTimes="100" Range="2" TerminateWhen="!OnQuest || !IsObjectiveComplete(2, 42123)">
           <HuntingGrounds>
             <Hotspot X="562.7158" Y="6402.918" Z="58.84998" />
             <Hotspot X="555.2083" Y="6276.979" Z="38.99604" />
@@ -43,6 +43,6 @@ return false;", 0);]]></CustomBehavior>
         </CustomBehavior>
       </If>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

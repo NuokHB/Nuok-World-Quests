@@ -17,7 +17,9 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+    <CustomBehavior File="RunCode" Type="Definition">
+    <![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 42511 then
@@ -40,6 +42,6 @@ return false;", 0);]]></CustomBehavior>
         </HuntingGrounds>
       </CustomBehavior>   
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

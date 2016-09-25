@@ -19,7 +19,8 @@
   <QuestOrder>
     <CustomBehavior File="RunCode" Type="Definition">
       <![CDATA[
-      public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+      public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+      local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 42021 then
@@ -104,6 +105,6 @@ return false;", 0);
           <MoveTo X="-916.111" Y="5746.806" Z="2.112487" />
       </If>
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>

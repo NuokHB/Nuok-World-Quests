@@ -17,7 +17,9 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest() => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+    <CustomBehavior File="RunCode" Type="Definition">
+    <![CDATA[public bool OnQuest() => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 42172 then
@@ -61,6 +63,6 @@ return false;", 0);
       <Objective QuestName="Leyhollow Infestation" QuestId="42172" Type="KillMob" Nav="Fly" MobId="106630" KillCount="10" />
       <Objective QuestName="Leyhollow Infestation" QuestId="42172" Type="KillMob" Nav="Fly" MobId="106665" KillCount="1" />
     </While>
-    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Auto Loader" RememberProfile="false" />
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>
 </HBProfile>
