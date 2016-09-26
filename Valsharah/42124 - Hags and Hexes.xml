@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Hags and Hexes</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1018);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42124 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(42124)">
+        <RunTo X="0" Y="0" Z="0" />
+      </If>
+      <If Condition="HasQuest(42124)">
+        <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="106372" TerminateWhen="IsObjectiveComplete(1, 42124) || !OnQuest"  X="2156.643" Y="6807.948" Z="107.3221" />
+        <!--<Vendor Name="Cragtalon Witchmother" Entry="106384" Type="Repair" Nav="Fly" X="2254.657" Y="6829.616" Z="118.1944" />-->
+        <CustomBehavior File="KillUntilComplete" MobId="106384" TerminateWhen="IsObjectiveComplete(3, 42124) || !OnQuest"  X="2254.657" Y="6829.616" Z="118.1944" />      
+        <!--<Vendor Name="Cragtalon Hexenwitch" Entry="106358" Type="Repair" Nav="Fly" X="2153.101" Y="6828.999" Z="108.0994" />-->
+        <CustomBehavior File="KillUntilComplete" MobIds="106358, 106369" TerminateWhen="IsObjectiveComplete(2, 42124) || !OnQuest"  X="2153.101" Y="6828.999" Z="108.0994" />
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

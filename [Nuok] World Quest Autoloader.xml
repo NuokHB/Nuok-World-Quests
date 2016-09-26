@@ -323,6 +323,10 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42076 - Shadowfen Village&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42076 - Shadowfen Village" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(42124) &amp;&amp; PassesSettings(42124)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42124 - Hags and Hexes&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42124 - Hags and Hexes" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(42145) &amp;&amp; PassesSettings(42145)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42145 - Out of the Woodwork&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\42145 - Out of the Woodwork" RememberProfile="false" />
