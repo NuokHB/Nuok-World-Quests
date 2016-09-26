@@ -363,6 +363,10 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43738 - Coastal Gloom&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43738 - Coastal Gloom" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43759) &amp;&amp; PassesSettings(43759)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43759 - Where's the Reef&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43759 - Where's the Reef" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(44033) &amp;&amp; PassesSettings(44033)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44033 - Aw, Nuts!&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\44033 - Aw, Nuts!" RememberProfile="false" />
@@ -494,6 +498,10 @@ return 0;";
       <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(44121) &amp;&amp; Settings.Instance.DoDangerQuests &amp;&amp; PassesSettings(44121)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44121 - DANGER Az'jatar&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Suramar\44121 - DANGER Az'jatar" RememberProfile="false" />
+      </If>
+      <If Condition="ZoneEnabled(1096) &amp;&amp;  OnQuest(43801) &amp;&amp; PassesSettings(43801)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43801 - Shell Out Some Pain&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="EyeofAzshara\43801 - Shell Out Some Pain" RememberProfile="false" />
       </If>
     </While>
   </QuestOrder>
