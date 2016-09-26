@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] A Tainted Vintage</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42014 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(42014)">
+        <RunTo X="1313.939" Y="7040.831" Z="75.5509" />
+      </If>
+      <If Condition="HasQuest(42014)">
+        <!--<WoWUnit Name="Vintner Liastrin" Entry="90537" X="1244.808" Y="6825.249" Z="119.7715" />-->
+        <CustomBehavior File="KillUntilComplete" MobId="90537" TerminateWhen="!OnQuest || IsObjectiveComplete(1, 42014)" X="1244.808" Y="6825.249" Z="119.7715" />
+        <!--<WoWUnit Name="Grand Vintner Valiana" Entry="90547" X="1432.928" Y="7004.778" Z="91.50382" />-->
+        <CustomBehavior File="KillUntilComplete" MobId="90547" TerminateWhen="!OnQuest || IsObjectiveComplete(2, 42014)" X="1432.928" Y="7004.778" Z="91.50382" />
+
+        <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="91041" TerminateWhen="IsObjectiveComplete(3, 42014) || !HasQuest(42014)">
+          <HuntingGrounds>
+            <Hotspot X="1346.76" Y="6752.542" Z="106.5186" />
+            <Hotspot X="1389.406" Y="6911.418" Z="97.16764" />
+          </HuntingGrounds>
+        </CustomBehavior>
+
+        <CustomBehavior File="InteractWith" NumOfTimes="40" MobId="249341" TerminateWhen="IsObjectiveComplete(4, 42014) || !HasQuest(42014)">
+          <HuntingGrounds>
+            <Hotspot X="1346.76" Y="6752.542" Z="106.5186" />
+            <Hotspot X="1389.406" Y="6911.418" Z="97.16764" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
