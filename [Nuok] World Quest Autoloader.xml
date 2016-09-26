@@ -463,6 +463,10 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44292 - WANTED Majestic Elderhorn&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\44292 - WANTED Majestic Elderhorn" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1033) &amp;&amp; OnQuest(41557) &amp;&amp; Me.GetSkill(Styx.SkillLine.Cooking).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41557)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41557 - Slab of Bacon&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Suramar\41557 - Slab of Bacon" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1033) &amp;&amp;  OnQuest(42082) &amp;&amp; PassesSettings(42082)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 42082 - The Shattered Locus&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Suramar\42082 - The Shattered Locus" RememberProfile="false" />
