@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Razing Hel</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1017);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1017)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41925 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41925)">
+        <If Condition="Me.ZoneId != 7588">
+        <RunTo X="3639.587" Y="775.4519" Z="-2.403116" />
+        <!--<GameObject Name="Portal to Helheim" Entry="241758" X="3657.719" Y="757.5208" Z="-14.93305" />-->
+        <CustomBehavior File="GoThruPortal" X="3657.719" Y="757.5208" Z="-14.93305" />
+        </If>
+      </If>
+      <If Condition="HasQuest(41925) &amp;&amp; Me.ZoneId == 7588">
+            <!--<GameObject Name="Kvaldir Cage" Entry="241693" X="355.4306" Y="399.8611" Z="24.40044" />-->
+            <!--<WoWUnit Name="Unworthy Soul" Entry="91818" X="448.6615" Y="400.6406" Z="1.242831" />-->
+        <CustomBehavior File="InteractWith" MobIds="241693, 91818" NumOfTimes="100" TerminateWhen="!OnQuest" X="432.9259" Y="369.0648" Z="0.6477334" />
+      </If>
+    </While>
+    <While Condition="Me.ZoneId == 7588">
+      <RunTo X="345.1447" Y="360.2097" Z="29.92522" />
+      <!--<GameObject Name="Portal to Stormheim" Entry="241755" X="332.6701" Y="340.4306" Z="24.73227" />-->
+      <CustomBehavior File="GoThruPortal" X="332.6701" Y="340.4306" Z="24.73227" />
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

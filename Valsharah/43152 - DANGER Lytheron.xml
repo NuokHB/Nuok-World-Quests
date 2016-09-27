@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <HBProfile>
-  <Name>[Nuok] Felhide</Name>
+  <Name>[Nuok] DANGER: Lytheron</Name>
   <MinDurability>0.2</MinDurability>
   <MinFreeBagSlots>1</MinFreeBagSlots>
   <MinLevel>1</MinLevel>
@@ -17,18 +17,24 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1018);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
-        if info.questId == 41564 then
+        if info.questId == 43152 then
             return true;
             end
     end
 end
 return false;", 0);]]></CustomBehavior>
-    <While Condition="OnQuest &amp;&amp; Me.GetSkill(Styx.SkillLine.Skinning).CurrentValue &gt;= 1"> 
-      <CustomBehavior File="InteractWith" MobId="103675" TerminateWhen="!OnQuest" WaitForNpcs="false" X="-725.2645" Y="7881.038" Z="18.45441" />
-      <CustomBehavior File="InteractWith" MobId="248045" TerminateWhen="!OnQuest" WaitForNpcs="false" X="-725.2645" Y="7881.038" Z="18.45441" />
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(43152)">
+        <RunTo X="2693.074" Y="7680.129" Z="25.8408" />
+      </If>
+      <If Condition="HasQuest(43152)">
+        <!--<Vendor Name="Lytheron" Entry="109692" Type="Repair" Nav="Fly" X="2685.68" Y="7715.606" Z="20.06597" />-->
+        <CustomBehavior File="KillUntilComplete" MobId="109692" TerminateWhen="!OnQuest" X="2693.074" Y="7680.129" Z="25.8408" />
+      </If>
     </While>
     <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
   </QuestOrder>

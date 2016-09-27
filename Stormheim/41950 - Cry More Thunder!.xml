@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Cry More Thunder!</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1017);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1017)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41950 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41950)">
+        <RunTo X="2692.471" Y="2859.063" Z="310.1436" />
+      </If>
+      <If Condition="HasQuest(41950)">
+        <!--<Vendor Name="Vethir" Entry="108685" Type="Repair" Nav="Fly" X="2692.471" Y="2859.063" Z="310.1436" />-->
+        <If Condition="!Me.InVehicle">
+          <CustomBehavior File="InteractWith" InteractByServerGossipIndices="6" MobId="108685" TerminateWhen="!OnQuest || Me.InVehicle" WaitForNpcs="false" X="2692.471" Y="2859.063" Z="310.1436" />
+        </If>
+        <If Condition="Me.InVehicle">
+          <CustomBehavior File="Vehicles\NoControlVehicle" NumOfTimes="150" TargetId1="92367" TargetId2="92381" AttackButton="2" AttackButtonSecondary="1" OftenToUse="1000" VehicleId="105489" MaxRange="200" />
+        </If>
+      </If>
+    </While>
+    <While Condition="Me.InVehicle" >
+      <CustomBehavior File="WaitTimer" WaitTime="5000" />
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
