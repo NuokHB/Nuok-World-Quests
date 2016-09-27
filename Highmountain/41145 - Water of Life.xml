@@ -17,7 +17,9 @@
   <SellPurple>false</SellPurple>
   <TargetElites>true</TargetElites>
   <QuestOrder>
-    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+    <CustomBehavior File="RunCode" Type="Definition">
+    <![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1024);
+    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
 if (taskInfo) then
     for i, info  in ipairs(taskInfo) do
         if info.questId == 41145 then
