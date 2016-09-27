@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Dirge of the Dead</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1024);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 41024 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(41024)">
+        <RunTo X="5004.684" Y="5749.151" Z="29.78054" />
+      </If>
+      <If Condition="HasQuest(41024)">
+        <!--<GameObject Name="Soul Rune" Entry="246851" X="4852.96" Y="5786.354" Z="42.23264" />-->
+        <CustomBehavior File="InteractWith" MobId="246851" TerminateWhen="!HasQuest(41024)">
+          <HuntingGrounds>
+            <Hotspot X="5004.628" Y="5863.298" Z="45.84783" />
+            <Hotspot X="5015.128" Y="6002.119" Z="33.99445" />
+            <Hotspot X="4863.706" Y="5902.554" Z="26.92657" />
+            <Hotspot X="4882.633" Y="5789.64" Z="39.68489" />
+          </HuntingGrounds>
+        </CustomBehavior>
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>

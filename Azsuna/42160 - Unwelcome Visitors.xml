@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HBProfile>
+  <Name>[Nuok] Unwelcome Visitors</Name>
+  <MinDurability>0.2</MinDurability>
+  <MinFreeBagSlots>1</MinFreeBagSlots>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>1000</MaxLevel>
+  <MailGrey>false</MailGrey>
+  <MailWhite>true</MailWhite>
+  <MailGreen>true</MailGreen>
+  <MailBlue>true</MailBlue>
+  <MailPurple>true</MailPurple>
+  <SellGrey>true</SellGrey>
+  <SellWhite>false</SellWhite>
+  <SellGreen>false</SellGreen>
+  <SellBlue>false</SellBlue>
+  <SellPurple>false</SellPurple>
+  <TargetElites>true</TargetElites>
+  <Blackspots>
+    <!--The big portal-->
+    <Blackspot X="589.2658" Y="5400.992" Z="50.41586" Radius="55" />
+  </Blackspots>
+  <QuestOrder>
+    <CustomBehavior File="RunCode" Type="Definition"><![CDATA[public bool OnQuest => Lua.GetReturnVal<bool>(@"SetMapByID(1015);
+local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+if (taskInfo) then
+    for i, info  in ipairs(taskInfo) do
+        if info.questId == 42160 then
+            return true;
+            end
+    end
+end
+return false;", 0);]]></CustomBehavior>
+    <While Condition="OnQuest">
+      <If Condition="!HasQuest(42160)">
+        <RunTo X="0" Y="0" Z="0" />
+      </If>
+      <If Condition="HasQuest(42160)">
+        <While Condition="!IsObjectiveComplete(1, 42160)">
+          <If Condition="!IsObjectiveComplete(1, 42160)">
+            <MoveTo X="606.9622" Y="5515.202" Z="54.96275" />
+            <CustomBehavior File="RunCode">
+              <![CDATA[
+							Lua.DoString("ExtraActionButton1:Click();");
+							await Coroutine.Sleep(1250);
+							SpellManager.ClickRemoteLocation(new WoWPoint(612.4494, 5522.283, 54.9626));  
+							await Coroutine.Sleep(10000);
+						]]>
+            </CustomBehavior>
+          </If>
+          <If Condition="!IsObjectiveComplete(1, 42160)">
+            <MoveTo X="497.7549" Y="5309.568" Z="60.43059" />
+            <CustomBehavior File="RunCode">
+              <![CDATA[
+							Lua.DoString("ExtraActionButton1:Click();");
+							await Coroutine.Sleep(1250);
+							SpellManager.ClickRemoteLocation(new WoWPoint(495.3287, 5304.425, 61.38424));  
+							await Coroutine.Sleep(10000);
+						]]>
+            </CustomBehavior>
+          </If>
+          <If Condition="!IsObjectiveComplete(1, 42160)">
+            <MoveTo X="589.2864" Y="5301.351" Z="45.4174" />
+            <CustomBehavior File="RunCode">
+              <![CDATA[
+							Lua.DoString("ExtraActionButton1:Click();");
+							await Coroutine.Sleep(1250);
+							SpellManager.ClickRemoteLocation(new WoWPoint(589.2864, 5301.351, 45.4174));  
+							await Coroutine.Sleep(10000);
+						]]>
+            </CustomBehavior>
+          </If>
+          <If Condition="!IsObjectiveComplete(1, 42160)">
+            <MoveTo X="725.2156" Y="5318.586" Z="57.56347" />
+            <CustomBehavior File="RunCode">
+              <![CDATA[
+							Lua.DoString("ExtraActionButton1:Click();");
+							await Coroutine.Sleep(1250);
+							SpellManager.ClickRemoteLocation(new WoWPoint(725.2156, 5318.586, 57.56347));  
+							await Coroutine.Sleep(10000);
+						]]>
+            </CustomBehavior>
+          </If>
+        </While>
+        <CustomBehavior File="KillUntilComplete" MobId="106582" TerminateWhen="IsObjectiveComplete(2,42160) || !OnQuest" X="661.2092" Y="5336.573" Z="49.07158" />
+        <CustomBehavior File="KillUntilComplete" MobId="106583" TerminateWhen="IsObjectiveComplete(3,42160) || !OnQuest" X="483.6472" Y="5396.331" Z="36.3257" />
+      </If>
+    </While>
+    <CustomBehavior File="LoadProfile" ProfileName="../[Nuok] World Quest Autoloader" RememberProfile="false" />
+  </QuestOrder>
+</HBProfile>
