@@ -320,9 +320,17 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41518 - Felwort&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41518 - Felwort" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41553) &amp;&amp; PassesSettings(41553)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41553 - Slab of Bacon&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41553 - Slab of Bacon" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41965) &amp;&amp; PassesSettings(41965)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41965 - Lunarwing Liberation&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41965 - Lunarwing Liberation" RememberProfile="false" />
+      </If>
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41992) &amp;&amp; PassesSettings(41992)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41992 - Twisted Ash&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Valsharah\41992 - Twisted Ash" RememberProfile="false" />
       </If>
       <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(41996) &amp;&amp; PassesSettings(41996)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41996 - Tangled Nightmare&quot;);" />
