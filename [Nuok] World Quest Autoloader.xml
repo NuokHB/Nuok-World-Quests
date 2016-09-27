@@ -118,6 +118,9 @@ return unpack(ids)";
         public bool DoWanted { get; set; }
 
         [Setting]
+        public bool DoPvP { get; set; }
+
+        [Setting]
         public bool DoDangerQuests { get; set; }
 
         [Setting]
@@ -229,6 +232,9 @@ return 0;";
       </If>
       <If Condition="HasQuest(42422) &amp;&amp; IsQuestCompleted(42422)">
         <TurnIn Nav="Fly" QuestName="The Wardens" QuestId="42422" TurnInName="Marin Bladewing" TurnInId="107379" />
+      </If>
+      <If Condition="HasQuest(42170) &amp;&amp; IsQuestCompleted(42170)">
+        <TurnIn Nav="Fly" QuestName="The Dreamweavers" QuestId="42170" TurnInName="Sylvia Hartshorn" TurnInId="106901" />
       </If>
       <If Condition="ZoneEnabled(1015) &amp;&amp; OnQuest(41545) &amp;&amp; Me.GetSkill(Styx.SkillLine.Herbalism).CurrentValue &gt;= 1 &amp;&amp; PassesSettings(41545)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41545 - Aethril Cluster&quot;);" />
@@ -342,7 +348,7 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43101 - DANGER Witchdoctor Grgl-Brgl&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43101 - DANGER Witchdoctor Grgl-Brgl" RememberProfile="false" />
       </If>
-      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43248) &amp;&amp; PassesSettings(43248)">
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43248) &amp;&amp; Settings.Instance.DoPvP &amp;&amp; PassesSettings(43248)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43248 - Warden Tower Assault Darkfollow's Spire&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43248 - Warden Tower Assault Darkfollow's Spire" RememberProfile="false" />
       </If>
@@ -414,7 +420,7 @@ return 0;";
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41238 - Calcified Wormscales&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41238 - Calcified Wormscales" RememberProfile="false" />
       </If>
-      <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41257) &amp;&amp; PassesSettings(41257)">
+      <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41257) &amp;&amp; Settings.Instance.DoPvP &amp;&amp; PassesSettings(41257)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41257 - Warden Tower Assault Cordana's Apex&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41257 - Warden Tower Assault Cordana's Apex" RememberProfile="false" />
       </If>

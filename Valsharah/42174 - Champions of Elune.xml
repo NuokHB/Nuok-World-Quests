@@ -75,6 +75,10 @@ return false;", 0);]]></CustomBehavior>
       
             if(!Me.IsAutoAttacking)
               Me.ToggleAttack();  
+              
+            Styx.Helpers.KeyboardManager.KeyUpDown((char)System.Windows.Forms.Keys.D2);  
+            await Coroutine.Sleep(500);
+            Styx.Helpers.KeyboardManager.KeyUpDown((char)System.Windows.Forms.Keys.D1);
 						await Coroutine.Sleep(1050);
 					}
 
