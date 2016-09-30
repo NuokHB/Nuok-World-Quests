@@ -553,6 +553,10 @@ return 0", 0);
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 41844 - WANTED Sekhan&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41844 - WANTED Sekhan" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(43764) &amp;&amp; PassesSettings(43764) &amp;&amp; DoFaction(43764)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43764 - Ley Race&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Highmountain\43764 - Ley Race" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(44291) &amp;&amp; Settings.Instance.DoWanted &amp;&amp; PassesSettings(44291) &amp;&amp; DoFaction(44291)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 44291 - WANTED Crawshuk the Hungry&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\44291 - WANTED Crawshuk the Hungry" RememberProfile="false" />

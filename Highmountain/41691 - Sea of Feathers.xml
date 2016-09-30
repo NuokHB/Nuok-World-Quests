@@ -29,7 +29,7 @@ end
 return false;", 0);]]></CustomBehavior>
     <While Condition="OnQuest">
       <If Condition="!HasQuest(41691)">
-        <RunTo X="0" Y="0" Z="0" />
+        <RunTo X="5255.162" Y="4798.687" Z="660.7556" />
       </If>
       <If Condition="HasQuest(41691)">
         <!--<GameObject Name="Harpy Egg" Entry="243401" X="5333.327" Y="4806.295" Z="660.7524" />-->
