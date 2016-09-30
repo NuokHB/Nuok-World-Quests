@@ -445,6 +445,10 @@ return 0", 0);
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43738 - Coastal Gloom&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43738 - Coastal Gloom" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43753) &amp;&amp; PassesSettings(43753) &amp;&amp; DoFaction(43753)">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43753 - Ley Race&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43753 - Ley Race" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1018) &amp;&amp;  OnQuest(43758) &amp;&amp; PassesSettings(43758) &amp;&amp; DoFaction(43758)">
         <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.LightGray, &quot;[NuokWorldQuest]&quot; + &quot;Loading 43758 - Wherever I May Gloam&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Valsharah\43758 - Wherever I May Gloam" RememberProfile="false" />
