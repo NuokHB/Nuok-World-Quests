@@ -29,7 +29,13 @@ if (taskInfo) then
 end
 return false;", 0);]]></CustomBehavior>
     <While Condition="OnQuest">
-      <CustomBehavior File="KillUntilComplete" MobIds="103180, 103162, 90661, 103176" TerminateWhen="!OnQuest">
+      <If Condition="!HasQuest(42027)">
+        <MoveTo X="-273.3611" Y="7265.658" Z="11.98791" />
+      </If>
+      <!--<GameObject Name="Legion Portal" Entry="249411" X="-243.1649" Y="7213.161" Z="17.4796" />-->
+      <!--<GameObject Name="Soul Prison" Entry="249421" X="-237.2622" Y="7243.991" Z="18.39043" />-->
+      <!--<GameObject Name="Libram of Fel Knowledge" Entry="249412" X="-268.1945" Y="7365.155" Z="18.98476" />-->
+      <CustomBehavior File="InteractWith" MobIds="249411, 249421, 249412" TerminateWhen="!OnQuest">
         <HuntingGrounds>
           <Hotspot X="-477.7179" Y="7250.314" Z="17.23183" />
           <Hotspot X="-471.8875" Y="7347.826" Z="44.41571" />
