@@ -497,6 +497,10 @@ return 0", 0);
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 41024 - Dirge of the Dead&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41024 - Dirge of the Dead" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41095) &amp;&amp; PassesSettings(41095) &amp;&amp; DoFaction(41095)">
+        <CustomBehavior File="RunCode" Code="Log(&quot;Loading 41095 - Critical Crops&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41095 - Critical Crops" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1024) &amp;&amp;  OnQuest(41144) &amp;&amp; PassesSettings(41144) &amp;&amp; DoFaction(41144)">
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 41144 - Return to the River&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Highmountain\41144 - Return to the River" RememberProfile="false" />
