@@ -301,6 +301,10 @@ return 0", 0);
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42021 - Investigation at Mak'rana&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42021 - Investigation at Mak'rana" RememberProfile="false" />
       </If>
+      <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42022) &amp;&amp; PassesSettings(42022) &amp;&amp; DoFaction(42022)">
+        <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42022 - The Broken Academy&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42022 - The Broken Academy" RememberProfile="false" />
+      </If>
       <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42026) &amp;&amp; PassesSettings(42026) &amp;&amp; DoFaction(42026)">
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42026 - Faronaar in Ruin&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42026 - Faronaar in Ruin" RememberProfile="false" />
@@ -312,6 +316,10 @@ return 0", 0);
       <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42108) &amp;&amp; PassesSettings(42108) &amp;&amp; DoFaction(42108)">
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42108 - Rally the Nightwatchers&quot;);" />
         <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42108 - Rally the Nightwatchers" RememberProfile="false" />
+      </If>
+      <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42112) &amp;&amp; PassesSettings(42112) &amp;&amp; DoFaction(42112)">
+        <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42112 - The Withered Return&quot;);" />
+        <CustomBehavior File="LoadProfile" ProfileName="Azsuna\42112 - The Withered Return" RememberProfile="false" />
       </If>
       <If Condition="ZoneEnabled(1015) &amp;&amp;  OnQuest(42119) &amp;&amp; PassesSettings(42119) &amp;&amp; DoFaction(42119)">
         <CustomBehavior File="RunCode" Code="Log(&quot;Loading 42119 - A Cleansing Cocktail&quot;);" />
